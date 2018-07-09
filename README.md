@@ -24,6 +24,9 @@ library(where)
 cities <- get_cities()
 ```
 
+Data contains all cities with a population > 1000 or seats of adm div (ca 150.000) from [GeoNames](http://www.geonames.org/export/).
+
+
 Or for a specific country:
 
 ```r
