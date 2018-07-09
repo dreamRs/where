@@ -1,0 +1,21 @@
+Package: where
+Version: 0.0.0.9000
+Title: Where is this City?
+Description: A database on the cities of the world and a game to find them on a map.
+Authors@R: c(person("Fanny", "Meyer", email = "fanny.meyer@dreamrs.fr", role = c("aut")),
+  person("Victor", "Perrier", email = "victor.perrier@dreamrs.fr", role = c("aut", "cre")),
+  person("GeoNames", "", role = c("dtc"), comment = "Cities database"))
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Depends: R (>= 2.10)
+Imports: 
+    shiny,
+    shinyWidgets,
+    miniUI,
+    leaflet (>= 2.0.1),
+    htmltools,
+    data.table,
+    geosphere
+RoxygenNote: 6.0.1
