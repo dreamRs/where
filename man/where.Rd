@@ -4,10 +4,13 @@
 \alias{where}
 \title{Where is this City?}
 \usage{
-where(time = getOption("where.playtime", default = 60))
+where(area = getOption("where.area"), time = getOption("where.playtime",
+  default = 60))
 }
 \arguments{
-\item{time}{Playing time, default to 50 seconds.}
+\item{area}{Default selected country/continent.}
+
+\item{time}{Playing time, default to 60 seconds.}
 }
 \description{
 An addin to test your geographical skills !

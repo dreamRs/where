@@ -68,6 +68,7 @@ choose_area_modal <- function(ns) {
         Continent = make_continents_list(),
         Country = make_countries_list()
       ),
+      selected = getOption("where.code"),
       options = list(
         render = I(paste(
           "{",
@@ -110,6 +111,9 @@ get_country_name <- function(code) {
   countries[country_code == code, c(country_name)]
 }
 
-
+get_country_code <- function(name) {
+  countries <- get_countries()
+  countries[country_name == name, c(country_code)]
+}
 
 

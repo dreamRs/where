@@ -17,11 +17,24 @@ devtools::install_github("dreamRs/where")
 
 ## City database
 
-Get all cities available (109 373) with:
+Get all available cities (109 373) with:
 
 ``` r
 library(where)
 cities <- get_cities()
+```
+
+Or for a specific country:
+
+```r
+uk <- get_cities(country_name = "United Kingdom")
+```
+
+
+Get statistics by country:
+
+```r
+get_countries()
 ```
 
 
@@ -41,4 +54,11 @@ You can launch application in your browser by setting:
 ```r
 options("where.viewer" = "browser")
 ```
+
+You can use a default area to play with:
+
+```r
+options("where.area" = "France")
+```
+
 

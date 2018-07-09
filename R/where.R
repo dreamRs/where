@@ -3,7 +3,8 @@
 #'
 #' @description An addin to test your geographical skills !
 #'
-#' @param time Playing time, default to 50 seconds.
+#' @param area Default selected country/continent.
+#' @param time Playing time, default to 60 seconds.
 #'
 #' @export
 #'
@@ -18,9 +19,18 @@
 #' where()
 #'
 #' }
-where <- function(time = getOption("where.playtime", default = 60)) {
+where <- function(area = getOption("where.area"), time = getOption("where.playtime", default = 60)) {
 
   options("where.playtime" = time)
+  if (!is.null(area)) {
+    if (area %in% get_continents()[[1]]) {
+      options("where.code" = area)
+    } else {
+      code <- get_country_code(area)
+      code <- tolower(code)
+      options("where.code" = code)
+    }
+  }
 
   ui <- miniPage(
     # style sheet
