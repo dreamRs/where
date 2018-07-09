@@ -36,3 +36,9 @@ where::where()
 ![](img/where.png)
 
 
+You can launch application in your browser by setting:
+
+```r
+options("where.viewer" = "browser")
+```
+
