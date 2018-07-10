@@ -5,12 +5,15 @@
 \title{Where is this City?}
 \usage{
 where(area = getOption("where.area"), time = getOption("where.playtime",
-  default = 60))
+  default = 60), viewer = getOption(x = "where.viewer", default = "dialog"))
 }
 \arguments{
 \item{area}{Default selected country/continent.}
 
 \item{time}{Playing time, default to 60 seconds.}
+
+\item{viewer}{Where to display the gadget: \code{"dialog"},
+\code{"pane"} or \code{"browser"} (see \code{\link[shiny]{viewer}}).}
 }
 \description{
 An addin to test your geographical skills !

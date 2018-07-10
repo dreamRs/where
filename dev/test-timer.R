@@ -15,7 +15,7 @@ server <- function(input, output, session) {
 
   area_r <- callModule(choose_area_server, id = "area", launch = TRUE)
 
-  playtime <- getOption("where.playtime", default = 10)
+  playtime <- getOption("where.playtime", default = 60)
 
   timer_r <- reactiveValues(time = playtime)
   observeEvent(area_r$timestamp, {

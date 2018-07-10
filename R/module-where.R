@@ -126,11 +126,7 @@ count_points <- function(data, name_city, coords) {
   data <- data[name %in% name_city]
   distance <- distGeo(p1 = data[, c(longitude, latitude)], p2 = coords)
   distance <- distance / 1000
-  if (distance <= 100) {
-    round(100 / distance)
-  } else {
-    0
-  }
+  return(floor(100/distance))
 }
 
 

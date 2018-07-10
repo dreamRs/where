@@ -5,13 +5,15 @@
 #'
 #' @param area Default selected country/continent.
 #' @param time Playing time, default to 60 seconds.
+#' @param viewer Where to display the gadget: \code{"dialog"},
+#'  \code{"pane"} or \code{"browser"} (see \code{\link[shiny]{viewer}}).
 #'
 #' @export
 #'
 #' @importFrom miniUI miniPage miniContentPanel
 #' @importFrom shiny icon actionButton callModule observeEvent
 #'  showNotification observe showModal modalDialog tags isolate
-#'  stopApp dialogViewer browserViewer runGadget
+#'  stopApp dialogViewer browserViewer paneViewer runGadget
 #'
 #' @examples
 #' \dontrun{
@@ -19,7 +21,9 @@
 #' where()
 #'
 #' }
-where <- function(area = getOption("where.area"), time = getOption("where.playtime", default = 60)) {
+where <- function(area = getOption("where.area"),
+                  time = getOption("where.playtime", default = 60),
+                  viewer = getOption(x = "where.viewer", default = "dialog")) {
 
   options("where.playtime" = time)
   if (!is.null(area)) {
@@ -92,16 +96,17 @@ where <- function(area = getOption("where.area"), time = getOption("where.playti
     observeEvent(input$close, stopApp())
   }
 
-  viewer_opts <- getOption(x = "where.viewer", default = "dialog")
-  if (viewer_opts == "dialog") {
-    viewer <- dialogViewer(
+  if (viewer == "dialog") {
+    viewer_opts <- dialogViewer(
       "Test your geography skills!",
       width = 1000, height = 750
     )
+  } else if (viewer == "pane") {
+    viewer_opts <- paneViewer(minHeight = "maximize")
   } else {
-    viewer <- browserViewer()
+    viewer_opts <- browserViewer()
   }
-  runGadget(app = ui, server = server, viewer = viewer)
+  runGadget(app = ui, server = server, viewer = viewer_opts)
 }
 
 
