@@ -13,7 +13,7 @@
 #' @importFrom miniUI miniPage miniContentPanel
 #' @importFrom shiny icon actionButton callModule observeEvent
 #'  showNotification observe showModal modalDialog tags isolate
-#'  stopApp dialogViewer browserViewer paneViewer runGadget
+#'  stopApp dialogViewer browserViewer paneViewer runGadget onStop
 #'
 #' @examples
 #' \dontrun{
@@ -96,6 +96,7 @@ where <- function(area = getOption("where.area"),
     })
 
     observeEvent(input$close, stopApp())
+    onStop(stopApp)
   }
 
   if (viewer == "dialog") {
