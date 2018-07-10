@@ -16,8 +16,9 @@ where_ui <- function(id) {
 }
 
 #' @importFrom leaflet renderLeaflet leaflet leafletOptions addProviderTiles
-#'  leafletProxy fitBounds addMarkers clearMarkers %>%
+#'  leafletProxy fitBounds addMarkers clearMarkers %>% labelOptions
 #' @importFrom shiny reactiveValues reactiveVal observeEvent req renderUI tags observe
+#' @importFrom htmltools htmlEscape
 where_server <- function(input, output, session, rv_area, rv_time) {
 
   ns <- session$ns
@@ -26,7 +27,7 @@ where_server <- function(input, output, session, rv_area, rv_time) {
 
   count <- reactiveVal(1)
 
-  cities_r <- reactiveValues(data = NULL, names = NULL)
+  cities_r <- reactiveValues(data = NULL, names = NULL, n_played = NULL)
   observeEvent(rv_area$timestamp, {
     dat_r$total <- 0
     count(1)
@@ -101,6 +102,7 @@ where_server <- function(input, output, session, rv_area, rv_time) {
   observe({
     if (rv_time$time < 1) {
       i <- count()
+      dat_r$n_played <- i
       cities_played <- cities_r$data
       cities_names <- cities_r$names[seq_len(i)]
       cities_played <- cities_played[name %in% cities_names]
@@ -109,7 +111,8 @@ where_server <- function(input, output, session, rv_area, rv_time) {
           data = cities_played,
           lng = ~longitude,
           lat = ~latitude,
-          popup = ~asciiname
+          label = ~htmlEscape(asciiname),
+          labelOptions = labelOptions(textsize = "12px", sticky = FALSE)
         )
     } else {
       leafletProxy(mapId = "map") %>%

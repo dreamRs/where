@@ -87,7 +87,9 @@ where <- function(area = getOption("where.area"),
             tags$br(),
             tags$h4("You played with:", isolate(area_r$area)),
             tags$br(),
-            tags$h2("You scored", tags$b(isolate(where_r$total)), "points!")
+            tags$h2("You scored", tags$b(isolate(where_r$total)), "points!"),
+            tags$h5("(", isolate(where_r$n_played), "cities in",
+                    getOption("where.playtime"), "seconds )")
           )
         ))
       }

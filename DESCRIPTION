@@ -11,8 +11,8 @@ LazyData: true
 ByteCompile: true
 Depends: R (>= 2.10)
 Imports: 
-    shiny,
-    shinyWidgets,
+    shiny (>= 1.0.4),
+    shinyWidgets (>= 0.4.2),
     miniUI,
     leaflet (>= 2.0.1),
     htmltools,
