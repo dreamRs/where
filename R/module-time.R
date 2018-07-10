@@ -34,7 +34,8 @@ time_server <- function(input, output, session, rv_area) {
       session = session,
       id = ns("time_progress"),
       value = playtime,
-      total = playtime
+      total = playtime,
+      status = "primary"
     )
   })
 
@@ -42,11 +43,17 @@ time_server <- function(input, output, session, rv_area) {
     if (isTRUE(rv_area$play)) {
       invalidateLater(1000)
       timer_r$time <- isolate(timer_r$time) - 1
+      if (isolate(timer_r$time) <= 10) {
+        status <- "danger"
+      } else {
+        status <- "primary"
+      }
       updateProgressBar(
         session = session,
         id = ns("time_progress"),
         value = timer_r$time,
-        total = playtime
+        total = playtime,
+        status = status
       )
     }
   })
