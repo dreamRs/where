@@ -54,7 +54,11 @@ where_server <- function(input, output, session, rv_area, rv_time) {
   })
 
   output$map <- renderLeaflet({
-    leaflet(options = leafletOptions(zoomControl = FALSE)) %>%
+    leaflet(options = leafletOptions(
+      zoomControl = FALSE,
+      maxZoom = 9,
+      doubleClickZoom = FALSE
+    )) %>%
       addProviderTiles(provider = "Stamen.TerrainBackground")
   })
 
