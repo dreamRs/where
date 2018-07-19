@@ -96,7 +96,8 @@ where <- function(mode = getOption("where.mode", default = "city"),
             tags$h4("You played with:", isolate(area_r$area)),
             tags$br(),
             tags$h2("You scored", tags$b(isolate(where_r$total)), "points!"),
-            tags$h5("(", isolate(where_r$n_played), "cities in",
+            tags$h5("(", isolate(where_r$n_played),
+                    ifelse(mode == "city", "cities", "countries"), "in",
                     getOption("where.playtime"), "seconds )")
           )
         ))

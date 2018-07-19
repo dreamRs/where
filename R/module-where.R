@@ -152,9 +152,10 @@ where_country_server <- function(input, output, session, rv_area, rv_time) {
 
   count <- reactiveVal(1)
 
-  countries_r <- reactiveValues(data = NULL, names = NULL, n_played = NULL)
+  countries_r <- reactiveValues(data = NULL, names = NULL, n_played = 0)
   observeEvent(rv_area$timestamp, {
     dat_r$total <- 0
+    dat_r$n_played <- 0
     count(1)
     req(rv_area$area)
     if (rv_area$area == "World") {
@@ -208,6 +209,7 @@ where_country_server <- function(input, output, session, rv_area, rv_time) {
 
   observeEvent(input$map_click, {
     if (rv_time$time > 0) {
+      dat_r$n_played <- dat_r$n_played + 1
       # indice city to find
       newCount <- count() + 1
       if (newCount >= length(countries_r$names)) {
@@ -236,7 +238,6 @@ where_country_server <- function(input, output, session, rv_area, rv_time) {
   observe({
     if (rv_time$time < 1) {
       i <- count()
-      dat_r$n_played <- i
       countries_played <- countries_r$data
       countries_names <- countries_r$names[seq_len(i)]
       countries_played <- countries_played[countries_played$name %in% countries_names, ]
