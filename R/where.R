@@ -3,6 +3,7 @@
 #'
 #' @description An addin to test your geographical skills !
 #'
+#' @param mode Play mode: \code{city} or \code{country}.
 #' @param area Default selected country/continent.
 #' @param time Playing time, default to 60 seconds.
 #' @param viewer Where to display the gadget: \code{"dialog"},
@@ -21,9 +22,12 @@
 #' where()
 #'
 #' }
-where <- function(area = getOption("where.area"),
+where <- function(mode = getOption("where.mode", default = "city"),
+                  area = getOption("where.area"),
                   time = getOption("where.playtime", default = 60),
                   viewer = getOption(x = "where.viewer", default = "dialog")) {
+
+  mode <- match.arg(arg = mode, choices = c("city", "country"))
 
   options("where.playtime" = time)
   if (!is.null(area)) {
@@ -42,7 +46,7 @@ where <- function(area = getOption("where.area"),
     # title
     tags$div(
       class="gadget-title dreamrs-title-box",
-      tags$h1(icon("map-marker"), "Where is this City?", class = "dreamrs-title"),
+      tags$h1(icon("map-marker"), "Where is this ", mode, "?", class = "dreamrs-title"),
       actionButton(
         inputId = "close", label = "Close",
         class = "btn-sm pull-left"
@@ -62,9 +66,13 @@ where <- function(area = getOption("where.area"),
 
   server <- function(input, output, session) {
 
-    area_r <- callModule(choose_area_server, id = "area", launch = TRUE)
+    area_r <- callModule(choose_area_server, id = "area", launch = TRUE, mode = mode)
     time_r <- callModule(time_server, id = "time", rv_area = area_r)
-    where_r <- callModule(where_server, id = "map", rv_area = area_r, rv_time = time_r)
+    if (mode == "city") {
+      where_r <- callModule(where_city_server, id = "map", rv_area = area_r, rv_time = time_r)
+    } else {
+      where_r <- callModule(where_country_server, id = "map", rv_area = area_r, rv_time = time_r)
+    }
 
     observeEvent(where_r$timestamp, {
       if (!is.null(where_r$points) && where_r$points >= 0 & time_r$time > 0) {

@@ -10,7 +10,13 @@
 Install development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+# with remotes
+remotes::install_github("dreamRs/where")
+
+# or with install-github.me service (based on remotes)
+source("https://install-github.me/dreamRs/where")
+
+# or with devtools:
 devtools::install_github("dreamRs/where")
 ```
 

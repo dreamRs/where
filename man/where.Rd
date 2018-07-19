@@ -4,10 +4,13 @@
 \alias{where}
 \title{Where is this City?}
 \usage{
-where(area = getOption("where.area"), time = getOption("where.playtime",
-  default = 60), viewer = getOption(x = "where.viewer", default = "dialog"))
+where(mode = getOption("where.mode", default = "city"),
+  area = getOption("where.area"), time = getOption("where.playtime", default
+  = 60), viewer = getOption(x = "where.viewer", default = "dialog"))
 }
 \arguments{
+\item{mode}{Play mode: \code{city} or \code{country}.}
+
 \item{area}{Default selected country/continent.}
 
 \item{time}{Playing time, default to 60 seconds.}

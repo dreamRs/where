@@ -23,25 +23,27 @@ choose_area_ui <- function(id, ...) {
 
 
 #' @importFrom shiny reactiveValues showModal observeEvent
-choose_area_server <- function(input, output, session, launch = TRUE) {
+choose_area_server <- function(input, output, session, launch = TRUE, mode = c("city", "country")) {
+
+  mode <- match.arg(mode)
 
   ns <- session$ns
 
   dat_r <- reactiveValues(area = NULL, play = FALSE, timestamp = Sys.time())
 
   if (launch) {
-    showModal(choose_area_modal(ns))
+    showModal(choose_area_modal(ns, mode = mode))
   }
 
   observeEvent(input$choose_area, {
     dat_r$play <- FALSE
     dat_r$timestamp <- Sys.time()
-    showModal(choose_area_modal(ns))
+    showModal(choose_area_modal(ns, mode = mode))
   })
 
   observeEvent(input$validate_area, {
     area <- input$area
-    if (!area %in% make_continents_list()) {
+    if (!area %in% make_continents_list() & mode == "city") {
       area <- get_country_name(area)
     }
     dat_r$area <- area
@@ -56,12 +58,10 @@ choose_area_server <- function(input, output, session, launch = TRUE) {
 
 
 #' @importFrom shiny modalDialog selectizeInput actionButton
-choose_area_modal <- function(ns) {
-  modalDialog(
-    title = "Choose an area to play !",
-    fade = FALSE,
-    easyClose = FALSE,
-    selectizeInput(
+choose_area_modal <- function(ns, mode = c("city", "country")) {
+  mode <- match.arg(mode)
+  if (mode == "city") {
+    select_tag <- selectizeInput(
       inputId = ns("area"), label = "Select an area:",
       multiple = FALSE, width = "100%",
       choices = list(
@@ -79,7 +79,25 @@ choose_area_modal <- function(ns) {
           collapse = "\n"
         ))
       )
-    ),
+    )
+  } else {
+    select_tag <- selectizeInput(
+      inputId = ns("area"), label = "Select an area:",
+      multiple = FALSE, width = "100%",
+      choices = list(
+        "World" = list("World"),
+        "Continents" = list("Africa", "Antarctica", "Asia",
+                         "Europe", "North America",
+                         "Oceania", "South America")
+      ),
+      selected = getOption("where.code")
+    )
+  }
+  modalDialog(
+    title = "Choose an area to play !",
+    fade = FALSE,
+    easyClose = FALSE,
+    select_tag,
     footer = actionButton(
       inputId = ns("validate_area"), label = "Play!",
       class = "btn-primary", `data-dismiss` = "modal"
@@ -91,7 +109,7 @@ choose_area_modal <- function(ns) {
 
 
 make_continents_list <- function() {
-  cont <- get_continents()[[1]]
+  cont <- sort(get_continents()[[1]])
   return(cont)
 }
 
