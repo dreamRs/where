@@ -5,8 +5,9 @@
 \title{Where is this City?}
 \usage{
 where(mode = getOption("where.mode", default = "city"),
-  area = getOption("where.area"), time = getOption("where.playtime", default
-  = 60), viewer = getOption(x = "where.viewer", default = "dialog"))
+  area = getOption("where.area"), time = getOption("where.playtime",
+  default = 60), viewer = getOption(x = "where.viewer", default =
+  "dialog"))
 }
 \arguments{
 \item{mode}{Play mode: \code{city} or \code{country}.}

@@ -49,14 +49,31 @@ get_countries()
 
 ## Test your geography skills!
 
+### City mode
+
 Choose a country or continent and guess where cities are :
 
 ``` r
 where::where()
 ```
 
-![](img/where.png)
+![](img/where-city.png)
 
+
+
+### Country mode
+
+You can search country too :
+
+```r
+where(mode = "country")
+```
+
+![](img/where-country.png)
+
+
+
+### Options
 
 You can launch application in your browser by setting:
 

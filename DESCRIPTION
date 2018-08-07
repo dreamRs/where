@@ -19,5 +19,6 @@ Imports:
     data.table,
     geosphere,
     rnaturalearth,
-    sf
-RoxygenNote: 6.0.1
+    sf,
+    rgeos
+RoxygenNote: 6.1.0
