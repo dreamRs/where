@@ -1,8 +1,13 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
-language: R
-sudo: false
+language: r
+dist: trusty
+sudo: required
 cache: packages
+
 
 apt_packages:
   - libudunits2-dev
+
+
+before_install:
+  - sudo apt-get install -y libudunits2-dev
+
