@@ -43,6 +43,7 @@ cities1000 <- cities1000[, list(
   asciiname = V3,
   latitude = V5, longitude = V6,
   country_code = V9,
+  county_code = paste(V9, V11, sep = "."),
   population =  V15,
   elevation = V16,
   dem = V17
@@ -63,8 +64,19 @@ cities1000 <- merge(x = cities1000, y = code_countries, by = "country_code")
 cities1000
 
 
-View(cities1000[, .N, by = country_name])
+# View(cities1000[, .N, by = country_name])
 
+
+
+
+# Counties code -----------------------------------------------------------
+
+admin1CodesASCII <- fread("http://download.geonames.org/export/dump/admin1CodesASCII.txt", encoding = "UTF-8")
+admin1CodesASCII <- admin1CodesASCII[, list(county_code = V1, county_name = stringi::stri_trans_general(str = V2, id = "ASCII-Latin"))]
+
+cities1000 <- merge(x = cities1000, y = admin1CodesASCII, by = "county_code")
+
+cities1000
 
 
 
@@ -130,7 +142,7 @@ setcolorder(cities1000_, c( "name", "asciiname", "latitude",
 
 
 # save rds
-saveRDS(cities1000_, file = "data-raw/cities1000.rds")
+saveRDS(cities1000_, file = "data-raw/cities1000_county.rds")
 
 
 

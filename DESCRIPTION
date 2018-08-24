@@ -1,5 +1,5 @@
 Package: where
-Version: 0.0.2
+Version: 0.0.2.900
 Title: Where is this City?
 Description: A database on the cities of the world and a game to find them on a map.
 Authors@R: c(person("Fanny", "Meyer", email = "fanny.meyer@dreamrs.fr", role = c("aut")),
