@@ -22,7 +22,7 @@ choose_area_ui <- function(id, ...) {
 
 
 
-#' @importFrom shiny reactiveValues showModal observeEvent
+#' @importFrom shiny reactiveValues showModal observeEvent updateSelectizeInput removeUI insertUI
 choose_area_server <- function(input, output, session, launch = TRUE, mode = c("city", "country")) {
 
   mode <- match.arg(mode)
@@ -41,12 +41,36 @@ choose_area_server <- function(input, output, session, launch = TRUE, mode = c("
     showModal(choose_area_modal(ns, mode = mode))
   })
 
+  observeEvent(input$area, {
+    removeUI(selector = paste0("#", ns("select-sub-area")), immediate = TRUE)
+    area <- input$area
+    if (!area %in% make_continents_list() & mode == "city") {
+      area <- get_country_name(area)
+      counties <- get_cities(country_name = area)
+      insertUI(
+        selector = paste0("#", ns("placeholder-sub-area")),
+        ui = tags$div(
+          id = ns("select-sub-area"),
+          selectizeInput(
+            inputId = ns("sub_area"),
+            label = "Choose a sub-level (optional) :",
+            choices = c("None", sort(unique(counties$county_name))),
+            selected = "None",
+            multiple = FALSE,
+            width = "100%"
+          )
+        )
+      )
+    }
+  }, ignoreNULL = TRUE, ignoreInit = FALSE)
+
   observeEvent(input$validate_area, {
     area <- input$area
     if (!area %in% make_continents_list() & mode == "city") {
       area <- get_country_name(area)
     }
     dat_r$area <- area
+    dat_r$sub_area <- input$sub_area
     dat_r$play <- TRUE
     dat_r$timestamp <- Sys.time()
   })
@@ -61,23 +85,28 @@ choose_area_server <- function(input, output, session, launch = TRUE, mode = c("
 choose_area_modal <- function(ns, mode = c("city", "country")) {
   mode <- match.arg(mode)
   if (mode == "city") {
-    select_tag <- selectizeInput(
-      inputId = ns("area"), label = "Select an area:",
-      multiple = FALSE, width = "100%",
-      choices = list(
-        Continent = make_continents_list(),
-        Country = make_countries_list()
+    select_tag <- tagList(
+      selectizeInput(
+        inputId = ns("area"), label = "Select an area:",
+        multiple = FALSE, width = "100%",
+        choices = list(
+          Continent = make_continents_list(),
+          Country = make_countries_list()
+        ),
+        selected = getOption("where.code"),
+        options = list(
+          render = I(paste(
+            "{",
+            "option: function(item, escape) {",
+            "return '<div><span class=\"flag-icon flag-icon-' + item.value + '\"></span>' + ' ' + escape(item.label) + '</div>'",
+            "}",
+            "}",
+            collapse = "\n"
+          ))
+        )
       ),
-      selected = getOption("where.code"),
-      options = list(
-        render = I(paste(
-          "{",
-          "option: function(item, escape) {",
-          "return '<div><span class=\"flag-icon flag-icon-' + item.value + '\"></span>' + ' ' + escape(item.label) + '</div>'",
-          "}",
-          "}",
-          collapse = "\n"
-        ))
+      tags$div(
+        id = ns("placeholder-sub-area")
       )
     )
   } else {

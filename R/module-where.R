@@ -19,6 +19,7 @@ where_ui <- function(id) {
 #'  leafletProxy fitBounds addMarkers clearMarkers %>% labelOptions
 #' @importFrom shiny reactiveValues reactiveVal observeEvent req renderUI tags observe
 #' @importFrom htmltools htmlEscape
+#' @importFrom data.table :=
 where_city_server <- function(input, output, session, rv_area, rv_time) {
 
   ns <- session$ns
@@ -36,9 +37,14 @@ where_city_server <- function(input, output, session, rv_area, rv_time) {
       cities <- get_cities(continent_name = rv_area$area)
     } else {
       cities <- get_cities(country_name = rv_area$area)
+      if (!is.null(rv_area$sub_area) && rv_area$sub_area != "None") {
+        cities <- cities[county_name == rv_area$sub_area]
+      }
     }
     cities <- cities[order(population, decreasing = TRUE)]
     cities <- cities[seq_len(min(c(150, nrow(cities))))]
+    cities[, N := .N, by = name]
+    cities[N > 1, name := sprintf("%s (%s)", name, county_name)]
     cities_r$data <- cities
     cities_r$names <- sample(cities$name, size = 150, replace = nrow(cities) < 150)
   })
