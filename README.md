@@ -1,4 +1,4 @@
-# where
+# where <img src="man/figures/logo_where.png" width=200 align="right" />
 
 > A city database and a game !
 
