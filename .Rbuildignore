@@ -4,3 +4,4 @@
 ^dev$
 ^img$
 ^\.travis\.yml$
+^inst/applications$

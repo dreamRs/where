@@ -1,5 +1,5 @@
 Package: where
-Version: 0.0.2.910
+Version: 0.1.0
 Title: Where is this City?
 Description: A database on the cities of the world and a game to find them on a map.
 Authors@R: c(person("Fanny", "Meyer", email = "fanny.meyer@dreamrs.fr", role = c("aut")),
@@ -21,4 +21,4 @@ Imports:
     rnaturalearth,
     sf,
     rgeos
-RoxygenNote: 6.1.0
+RoxygenNote: 7.0.2

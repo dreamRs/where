@@ -2,7 +2,10 @@
 
 > A city database and a game !
 
+<!-- badges: start -->
 [![Travis build status](https://travis-ci.org/dreamRs/where.svg?branch=master)](https://travis-ci.org/dreamRs/where)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: end -->
 
 
 ## Installation
@@ -10,15 +13,14 @@
 Install development version from [GitHub](https://github.com/) with:
 
 ``` r
-# with remotes
 remotes::install_github("dreamRs/where")
-
-# or with install-github.me service (based on remotes)
-source("https://install-github.me/dreamRs/where")
-
-# or with devtools:
-devtools::install_github("dreamRs/where")
 ```
+
+
+## Play online
+
+* Country mode : https://dreamrs.shinyapps.io/where-is-this-country/
+* City mode : https://dreamrs.shinyapps.io/where-is-this-city/
 
 
 ## City database

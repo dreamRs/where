@@ -41,28 +41,28 @@ choose_area_server <- function(input, output, session, launch = TRUE, mode = c("
     showModal(choose_area_modal(ns, mode = mode))
   })
 
-  observeEvent(input$area, {
-    removeUI(selector = paste0("#", ns("select-sub-area")), immediate = TRUE)
-    area <- input$area
-    if (!area %in% make_continents_list() & mode == "city") {
-      area <- get_country_name(area)
-      counties <- get_cities(country_name = area)
-      insertUI(
-        selector = paste0("#", ns("placeholder-sub-area")),
-        ui = tags$div(
-          id = ns("select-sub-area"),
-          selectizeInput(
-            inputId = ns("sub_area"),
-            label = "Choose a sub-level (optional) :",
-            choices = c("None", sort(unique(counties$county_name))),
-            selected = "None",
-            multiple = FALSE,
-            width = "100%"
-          )
-        )
-      )
-    }
-  }, ignoreNULL = TRUE, ignoreInit = FALSE)
+  # observeEvent(input$area, {
+  #   removeUI(selector = paste0("#", ns("select-sub-area")), immediate = TRUE)
+  #   area <- input$area
+  #   if (!area %in% make_continents_list() & mode == "city") {
+  #     area <- get_country_name(area)
+  #     counties <- get_cities(country_name = area)
+  #     insertUI(
+  #       selector = paste0("#", ns("placeholder-sub-area")),
+  #       ui = tags$div(
+  #         id = ns("select-sub-area"),
+  #         selectizeInput(
+  #           inputId = ns("sub_area"),
+  #           label = "Choose a sub-level (optional) :",
+  #           choices = c("None", sort(unique(counties$county_name))),
+  #           selected = "None",
+  #           multiple = FALSE,
+  #           width = "100%"
+  #         )
+  #       )
+  #     )
+  #   }
+  # }, ignoreNULL = TRUE, ignoreInit = FALSE)
 
   observeEvent(input$validate_area, {
     area <- input$area
@@ -89,6 +89,7 @@ choose_area_modal <- function(ns, mode = c("city", "country")) {
       selectizeInput(
         inputId = ns("area"), label = "Select an area:",
         multiple = FALSE, width = "100%",
+        # choices = NULL,
         choices = list(
           Continent = make_continents_list(),
           Country = make_countries_list()
